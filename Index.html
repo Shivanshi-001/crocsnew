@@ -3,72 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lychee Facts</title>
+    <title>Lychee Facts Explorer</title>
     <style>
         body {
-            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #a37f5c 0%, #6e441d 100%);
+            font-family: Arial, sans-serif;
         }
 
         .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            padding: 2rem;
             text-align: center;
         }
 
+        h1 {
+            color: #fff;
+            margin-bottom: 2rem;
+        }
+
+        .fact-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        #factDisplay {
+            color: #fff;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            min-height: 100px;
+            margin-bottom: 1.5rem;
+        }
+
         button {
-            background-color: #4CAF50;
+            background: #4a90e2;
             color: white;
-            padding: 10px 15px;
             border: none;
-            border-radius: 4px;
+            padding: 12px 24px;
+            border-radius: 5px;
             cursor: pointer;
-            margin-top: 15px;
+            font-size: 1rem;
+            transition: background 0.3s ease;
         }
 
         button:hover {
-            background-color: #45a049;
+            background: #357abd;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Lychee Fact</h1>
-        <p id="fact-display">Click the button to see a fact</p>
-        <button id="new-fact-button">Get New Fact</button>
+        <h1>Amazing Lychee Facts</h1>
+        <div class="fact-container">
+            <div id="factDisplay"></div>
+            <button id="nextFact">Next Fact</button>
+        </div>
     </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const factDisplay = document.getElementById('fact-display');
-            const newFactButton = document.getElementById('new-fact-button');
-            let facts = [];
+        const lycheeFacts = {
+            "lycheeFacts": [
+                 { "id": 1, "fact": "Lychees are native to Southeast Asia, particularly the regions of southern China, Taiwan, and Southeast Asian countries." },
+                 { "id": 2, "fact": "The lychee fruit is a drupe, meaning it has a single seed surrounded by a fleshy layer and a thin outer skin." },
+                 { "id": 3, "fact": "Lychees are rich in vitamin C, offering a significant portion of the daily recommended intake." },
+                 { "id": 4, "fact": "The distinctive sweet and floral flavor of lychees is often described as a blend of grape, rose, and citrus notes." },
+                 { "id": 5, "fact": "Lychee trees are evergreen and can grow to be quite large, reaching heights of up to 30-40 feet." },
+                 { "id": 6, "fact": "Lychees are often eaten fresh, but can also be used in desserts, drinks, and savory dishes." },
+                 { "id": 7, "fact": "The lychee's skin is typically red or pink when ripe and becomes brittle when dry." },
+                 { "id": 8, "fact": "Lychees are a good source of antioxidants, which help protect the body against damage from free radicals." },
+                 { "id": 9, "fact": "The scientific name for the lychee tree is Litchi chinensis." },
+                 { "id": 10, "fact": "Lychees have been cultivated in China for over 2,000 years and were once considered a delicacy for royalty." }
+            ]
+        };
 
-            // Load the JSON file
-            fetch('facts.json')
-              .then(response => response.json())
-              .then(data => {
-                facts = data;
-              })
-            .catch(error => console.error('Error loading facts:', error));
+        let currentFactIndex = 0;
+        const factDisplay = document.getElementById('factDisplay');
+        const nextFactButton = document.getElementById('nextFact');
 
+        // Display initial fact
+        displayFact(currentFactIndex);
 
-            newFactButton.addEventListener('click', function() {
-                if (facts.length === 0) {
-                    factDisplay.textContent = "No facts available";
-                    return;
-                }
-                const randomIndex = Math.floor(Math.random() * facts.length);
-                factDisplay.textContent = facts[randomIndex].fact;
-            });
+        // Add click event listener to button
+        nextFactButton.addEventListener('click', () => {
+            currentFactIndex = (currentFactIndex + 1) % lycheeFacts.lycheeFacts.length;
+            displayFact(currentFactIndex);
         });
+
+        function displayFact(index) {
+            const fact = lycheeFacts.lycheeFacts[index];
+            factDisplay.innerHTML = `
+                <p><strong>Fact #${fact.id}:</strong></p>
+                <p>${fact.fact}</p>
+            `;
+        }
     </script>
 </body>
 </html>
+
 
